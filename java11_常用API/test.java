@@ -1,17 +1,16 @@
-package testMyself;
 
 import java.util.Arrays;
 
 public class test implements Runnable{
-	private String w = "°¡¹ş¹ş¹ş¹ş¹ş¹ş";
+	private String w = "å•Šå“ˆå“ˆå“ˆå“ˆå“ˆå“ˆ";
 	public static void main(String[] args) {
-		String s = "ÎÒµÄĞ¡¹·½ñÌì²»ÊÇºÜ¿ªĞĞ£¬ÎÒ²»ÖªµÀÔõÃ´°ì°¡£¡£¡£¡";
-		System.out.println(s.codePointAt(0));//·µ»ØsÖĞÖ¸¶¨µÄ×Ö·ûÔÚgbkÖĞµÄ±àÂëÔÚµÚ¼¸Î»
-		System.out.println(s.lastIndexOf("ÎÒ"));
-		System.out.println(s.indexOf("ÎÒ"));
+		String s = "æˆ‘çš„å°ç‹—ä»Šå¤©ä¸æ˜¯å¾ˆå¼€è¡Œï¼Œæˆ‘ä¸çŸ¥é“æ€ä¹ˆåŠå•Šï¼ï¼ï¼";
+		System.out.println(s.codePointAt(0));//è¿”å›sä¸­æŒ‡å®šçš„å­—ç¬¦åœ¨gbkä¸­çš„ç¼–ç åœ¨ç¬¬å‡ ä½
+		System.out.println(s.lastIndexOf("æˆ‘"));
+		System.out.println(s.indexOf("æˆ‘"));
 		
-		String w = "ÎÒ²»ÖªµÀ";
-		String [] r = s.split("ÎÒ");
+		String w = "æˆ‘ä¸çŸ¥é“";
+		String [] r = s.split("æˆ‘");
 		System.out.println(Arrays.toString(r));
 		String g = "     a5     ";
 		System.out.println(g.strip());
@@ -19,15 +18,15 @@ public class test implements Runnable{
 		System.out.println("--------------");
 		String s1 = "1";
 		String s2 = "2";
-		String s3 =s1+s2;//"12" Ö»ÔÚ¶ÑÖĞ£¨³£Á¿³ØÍâ£©´´½¨
+		String s3 =s1+s2;//"12" åªåœ¨å †ä¸­ï¼ˆå¸¸é‡æ± å¤–ï¼‰åˆ›å»º
 		System.out.println(s3);
 		
-		String s4 = s3;//½«s3µÄ¶ÑµØÖ·¸øÁËs4
+		String s4 = s3;//å°†s3çš„å †åœ°å€ç»™äº†s4
 		System.out.println(s3==s4);//true
 		
-		String s5 = "12";//ÔÚ³£Á¿³ØÖĞ´´½¨"12"
+		String s5 = "12";//åœ¨å¸¸é‡æ± ä¸­åˆ›å»º"12"
 		System.out.println(s3==s5);//false
-		//ËµÃ÷Í¨¹ı×Ö·û´®+×Ö·û´®µÃµ½µÄ£¬ÊÇÔÚ¶ÑÖĞ´´½¨£¨³£Á¿³ØÍâ£©
+		//è¯´æ˜é€šè¿‡å­—ç¬¦ä¸²+å­—ç¬¦ä¸²å¾—åˆ°çš„ï¼Œæ˜¯åœ¨å †ä¸­åˆ›å»ºï¼ˆå¸¸é‡æ± å¤–ï¼‰
 	}
 	@Override
 	public void run() {
