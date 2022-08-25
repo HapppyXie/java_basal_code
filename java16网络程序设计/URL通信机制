@@ -1,0 +1,30 @@
+Java网络通信的支持机制由URL层次和Socket层次
+
+1.URL层次：URL统一资源定位符
+		 URL组成：1.协议标识:表示访问资源所需的协议.如http，https
+		 		2.资源名称，表示要访问的资源地址.
+		 		主机名,文件名,端口号,引用
+		 		端口好和引用有时可省略
+		 	http://java.sun.com/		/是/index.html的省略写法
+		 
+	1>URL对象创建public URL(String "URL地址的字符串");
+		...
+	   注意：URL地址残缺或无法解释，会抛出MalformedException
+	   		URL对象一旦被创建就不能被修改	
+	   		
+	2>URLConnection类可以在应用程序与URL之间建立一个连接,通过URLConnection对象
+	  对URL所表示的资源进行读写
+	  
+	URL url = new URL("url");//失败抛出MalformedException
+	URLConnection con = url.openConnetion();//失败IOEexception
+	
+	URLConnection拥有 InputStream getInputeStream()
+					 OutputStream getOutputStream() 进行读写
+	    			 .....
+	   Java程序可以向服务器端的CGI脚本发送数据
+	   
+	   
+	   
+	   
+	   
+	   

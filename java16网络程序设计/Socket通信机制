@@ -1,0 +1,94 @@
+	Socket是两个程序进行双向数据传输的网络通信的端点，一般由一个地址加上一个端口号来标识；
+	Socket通信机制是一种底层的通信机制，通过Socket的数据是原始字节流(byte)信息，
+			通信双方必须根据约定的协议对数据进行处理和解释
+
+	Socket通信机制提供了两种通信方式，有连接方式(TCP)和无连接方式(UDP数据报).
+		1.有连接方式中，通信双方在开始时必须进行一次连接过程，建立一条链路。
+		  链路提供了可靠，双全工的字节流服务.
+		2.无连接方式中，通信双方不存在一个连接过程，一次网络IO以一个数据报形式进行，
+		  而且每次网络IO可以和不同主机的不同进程进行。
+		
+		无连接方式的开销小于有连接方式，但是所提供的数据传输服务不靠谱，不能保证数据一定到达
+		目的地
+		
+	Socket有连接通信方式：Socket是两个进程间通信链的端点，每个Socket有两个流：输入流和输出流
+		1.创建Socket（客户端），ServerSocket（服务端）
+		  常用构造方法:		adderss:IP地址，host：主机名，port：端口号，
+		  
+		  创建Socket
+		  连接指定主机的指定端口
+		  Socket(InetAddress adderss,int port)
+		  Socket(String host,int port)
+		  
+		  连接到指定主机的指定端口，同时将该Socket绑定到本地地址和端口
+		  Socket(InetAddress adderss,int port,InetAddress localAdder,int localport)
+		  Socket(String host,int port,InetAdderss localAddr,int localpoet)
+		  
+		  创建ServerSocket
+		  绑定到指定的端口
+		  ServerSocket(int port)
+		  绑定到指定的端口，并指出连接请求队列的最大长度
+		  ServerSocket(int port,int backlog)
+		  
+			建立连接的过程：在Client和Server建立连接之前，Server端程序将监听一个众所周知
+		  			  的端口。当Client端的连接请求到达后，如果Server同意连接，则将
+		  			  在Server端创建一个新的Socket与该Client建立连接，而Server将
+		  			  继续在原来的端口上监听，等待新的连接请求
+		 
+		 Socket s1= new Socket(serverHost,portNum)//发出请求
+		 		|
+		 ServerSocket s2= new ServerSocket(portNum)
+		 Socket ss = s2.accept();//accept()后才监听,监听该端口，直到获得客户端请求
+		  			  
+		2.数据传输：Socket类提供了： InputStream getInputStream()
+								OutputStream getOutputStream()
+				  获得连接上的输入和输出流（字节流）
+		  
+		3.关闭Socket:可以调用Socket的close()方法，
+					应先将与Socket相关的所有输入/输出流关闭，再关闭Socket
+		  
+		  
+		  
+		  
+	Socket无连接通信方式：数据报通信方式。用户数据报协议UDP是传输层的无连接通信协议。
+			数据报是一种在网络独立传播的自身包含地址信息的消息，它能否到达目的地，
+			到达的时间以及到达时内容能否保持不变，这些都是不能保证的。
+		1.DatagramSocket类和DatagramPacket类对象的创建:
+			DatagramSocket的对象是数据报通信的Socket，而DatagramPacket的对象是一个数据报。
+			数据报实现Client/Server通信程序时，要在Client和Server端都建立一个DatagramSocket对象，
+			用来表示数据包通信的端点，应用程序通过该Socket接受或发送数据包，再使用DatagramPacket对象
+			封装数据报
+			
+		DatagramSocket常用构造
+			DatagramSocket()与本机的任意可用的端口绑定
+			DatagramSocket(int port)与指定端口绑定
+			DatagramSocket(int port,InetAddress isaddr)与本机地址的指定端口绑定,isaddr:转化后的IP地址
+			
+		DatagramPacket对象中封装了数据报(数据)，数据长度，数据报地址等信息。
+			DatagramPacket的构造方法可以用来构造两种用途的数据报：
+											接受外来的数据的数据报和向外发送数据的数据报
+			1>.用来接受的数据报（不需要地址和端口）
+				DatagramPacket(byte[] buf,int length)
+				构造用来接受长度为length的数据报，数据保存在buf中，length必须小于等于buf.length
+				DatagramPacket(byte[] buf,int offset,int length)
+		构造用来接受长度为length的数据报，数据保存在buf中，length必须小于等于buf.length，并指定偏移量
+			
+			2>.用于发送的数据报构造：	（必须有地址和端口）		InetAddrss是一个类型
+			  DatagramPacket(byte[] buf,int length,InetAddress address,int port)
+			  构造用于发送的指定长度(length)的数据报,该数据报发送到指定主机的指定端口
+			  DatagramPacket(byte[] buf,int offset,int length,InetAddress address,int port)
+			  构造用于发送的指定长度(length)的数据报,该数据报发送到指定主机的指定端口,并指定偏移量offset
+			  
+		2.数据报方式的通信过程：
+			(1)在Client和Server端创建数据报DatagramSocket
+			(2)构造用于接受或发送的数据报，并调用所创建DatagramSocket的receive()方法进行数据报接受，
+									或调用send()方法发送数据报
+			(3)通信结束，关闭DatagramSocket
+			  
+			
+			
+			
+			
+			
+		  
+		  
