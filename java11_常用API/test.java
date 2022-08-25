@@ -5,7 +5,7 @@ public class test implements Runnable{
 	private String w = "啊哈哈哈哈哈哈";
 	public static void main(String[] args) {
 		String s = "我的小狗今天不是很开行，我不知道怎么办啊！！！";
-		System.out.println(s.codePointAt(0));//返回s中指定的字符在gbk中的编码在第几位
+		System.out.println(s.codePointAt(0));//返回s中指定的字符在gbk中的编码在第几位,即码点
 		System.out.println(s.lastIndexOf("我"));
 		System.out.println(s.indexOf("我"));
 		
