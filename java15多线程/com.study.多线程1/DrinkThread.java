@@ -1,0 +1,16 @@
+package com.study.∂‡œﬂ≥Ã1;
+
+public class DrinkThread extends Thread{
+	public void run() {
+		for(int i = 0 ; i < 20 ; i++) {
+			System.out.println("---------∫»æ∆----------");
+			try {
+				//–›√ﬂ50√Î£¨
+				Thread.sleep(50);
+				System.out.println(Thread.currentThread());
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}		
+	}
+}
