@@ -1,0 +1,64 @@
+1.预编译语句：
+	（1）PrepareStatement是java.sql中的一个接口，是Statement的子接口。
+	（2）通过Statement对象执行sql语句时，需要将sql语句发送给DBMS，由DBMS首先进行编译然后再执行。
+	（3）预编译语句在创建PreparedStatement对象时就指定了SQL语句，该SQL语句立刻发送给DBMS进行编译。
+		当该预编译语句被执行时，DBMS可直接运行编译后的SQL语句，而不需要像其他SQL语句那样首先将其编译。
+	（4）预编译语句支持带参数的SQL语句，对相同的SQL语句替换参数从而多次使用。
+
+  <1>预编译语句的创建：使用Connection接口的prepareStatement()方法创建
+  	 PreparedStatement prepareStatement(String sql) throws SQLException 
+	 参数sql是可以包含参数表示符?的sql语句
+	 
+	 //注意PreparedStatement对象有d，而创建的方法无d
+	 PreparedStatement updateSales = con.prepareStatement("update COFFEES set sales = ?
+	 				 where COF_NAME=?");
+	 
+  <2>预编译语句参数的设置：使用PreparedStatement接口的setXXX()方法，对每个sql中的类型都有一个setXXX()方法
+  	void setXXX(int param,XXX x);//param:参数的序号(索引)从1开始,参数值
+  		
+	注意：预编译语句中的参数设置后，其值将一直保留，直到被设为新值或调用预编译语句的clearParameters()将所有设置清除
+  <3>预编译语句的使用：反复使用一个sql语句时；常放在一个for或while循环中使用;
+  	预编译语句的执行：
+  		ResultSet executeQuery() throws SQLException;
+  		int executeUpdate() throws SQLException; 
+ 
+ ----------------------------------------------------------------------
+ 
+2.存储过程：存储过程是一组sql语句，它们形成了一个相对独立的逻辑单元，能够完成特定的任务。
+		存储过程封装了对数据库的一组更新和查询的操作，它们可以经过编译，并可以携带参数。
+  <1>存储过程的创建：在mysql中通过create procedure（mysql）语句创建存储过程
+  	String createProcedure = "create procedure SHOW_SUPPLIERS() begin select suppliers.sup_name,coffees.cof_name from suppliers,coffees where suppliers.sup_id=coffees.sup_id order by sup_name; end";
+				"create procedure 存储过程名称 begin sql语句; end";																																											
+  	
+  	Statement stmt = con.createStatement();//确实是这两个语句创建
+  	stmt.executeUpdate(createProcedure); //存储过程创建到mysql数据库中，创建后调用即可，重复创建报错
+  	
+  <2>存储过程的调用：
+  	首先通过数据库连接创建一个CallableStatement类型的对象;再调用该对象的executeQuery()方法执行存储过程
+  	CallableStatement cs = con.prepareCall("{call 存储过程名称}");
+  	ResultSet rs = cs.executeQuery();
+
+	注意：prepareCall()方法的参数是"{call 存储过程名称}"。不同DBMS调用存储过程的语法可能是不相同。
+		-只包含一个select语句，使用executQuery()方法
+		-包含更新或数据定义语句，则用executeUpdate()方法
+		-同时包含检索和更新，可能产生多个结果集，使用execute()方法
+
+-----------------------------------------------------------------------
+
+3.事务：事务transaction是保证数据库中数据的完整性与一致性的重要机制。事务有一组sql语句组成，这些语句要么都执行，要么都不执行
+	  ，因此事务具有原子性。
+	  
+事务的实现关键是Connection接口的三个子方法:
+	<1>setAutoCommit(boolean true/false)一个连接在创建后就采用一种自动提交模式，即每个sql语句都被看成一个事务，一个执行成功就
+		对数据产生永久影响。要把多个sql语句作为一个事务就要关闭自动提交模式
+	<2>commit()sql语句的执行结果不会被提交直到我们显示调用连接的commit()方法
+	<3>rollback()当一个事务执行过程中出现异常而失败时，为了保证数据的一致性，该事务必须回滚。如果一个事务中包含
+	   多个sql语句，则在事务执行过程中一旦出现SQLException异常，就调用roolback()方法，将事务取消并恢复数据
+	   
+	   
+	   
+	   
+	   
+	   
+
+	

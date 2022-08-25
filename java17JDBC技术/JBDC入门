@@ -1,0 +1,75 @@
+注意：注册驱动 Class.forName("com.mysql.cj.jdbc.Driver");
+	url:"jdbc:mysql://localhost:3306/database?args1&args2;"
+不要写错
+
+
+
+1.JDBC（JAVA DataBase Connectivity），在java语言中编写sql语句，对mysql数据库中的数据
+									进行CURD操作
+2.在java.sql.*中
+3.本质：JDBC是由SUN公司制定的一套接口，oracle和mysql厂家(数据库厂家)都对他进行了实现
+	（我们不需要关心底层如何实现，只需调用接口即可联接数据库）
+JBDC jdbc = new Oracle();
+JBDC jdbc = new MySQL();
+
+4.这些数据库厂家的实现类(数据库驱动 jar包)在哪里？ 官网下载
+	mysql-connector-java-8.0.28.jar   mysql的驱动
+	
+5.mysql-connector-java-8.0.28.jar是字节码文件，是class文件，java虚拟机的类加载器会去
+	加载class文件，类加载器怎么能够找到这些文件?
+	
+  1.在classpath（类路径）中配置
+  如果没有配置，默认从当前路径下加载class
+  如果配置死了，只从配置路径找  
+  如：classpath=D:\java\数据库-connector-java\mysql-connector-java-8.0.28\mysql-connector-java-8.0.28.jar
+  
+  classpath=.;D:\java\数据库-connector-java\mysql-connector-java-8.0.28\mysql-connector-java-8.0.28.jar
+	.代表当前路径
+  jar包不需要解压，java虚拟机的类加载器有能力找到class文件
+ 
+ 2.在工程中新建一个lib文件夹，将jar包拖进,右键build path ，add to bulid path
+ 或configure build path 在libraries中 add jar
+
+
+常用SQL语句
+创建 creat table s(表格名)(sno text,xingm text)
+增加 insert into s(sno,xingm) values('3','zzzz') 可不写前面的形式参数名，但后面的实际参数要对应前面的形参
+删除 delet from s where xingbie = 'nan'
+改 update s set lie(形参) = 'isi' where sno ='5'
+查询 selet * from s 
+
+
+
+
+JDBC操作:
+	1.导入驱动jar包mysql-connector-java-8.0.28.jar
+	2.注册驱动 Class.forName("com.mysql.cj.jdbc.Driver");
+	
+	mysql-connector-java-8.0.28.jar中的META-INF下的service下有java.sql.Driver配置文件
+	如果不写Class.forName("com.mysql.cj.jdbc.Driver");	会默认去配置文件中配置信息
+	但是在web环境中一定要写,web环境下也有自己的META-INF 存在两个配置文件无法找到
+	
+	3.获取数据库连接对象Connection
+	jdbc:mysql://      jdbc-mysql协议   例如http，https
+	localhost:3306/    localhost代表127.0.0.1本机ip地址，3306端口号
+	jdbctest			连接的数据库
+	?					区分后面的参数
+	characterEncoding=UTF-8		编码方式
+	&					隔开参数
+	UseSSL=false		传输是否加密，false不加密
+
+//出现Public Key Retrieval is not allowed异常时
+//在url中加入allowPublicKeyRetrieval=true 允许使用公开密钥连接数据库
+
+	4.定义sql
+	5.获取执行sql的对象，Statement
+	6.执行sql，接收返回结果
+	7.处理结果
+	8.释放资源
+
+
+
+
+
+
+s

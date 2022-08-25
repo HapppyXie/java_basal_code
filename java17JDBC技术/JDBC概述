@@ -1,0 +1,101 @@
+复习：jvm:屏蔽不同操作系统之间的差异，让不同系统运行java字节码文件，得出相同的结果->跨平台
+	jre:运行java已编译字节码必须的软件程序，包含jvm，java标准类库;不能将源码编译成字节码文件
+	jdk:包含jre，编译器及调试，分析的软件工具，能够创建.java文件并编译成.class文件
+	
+  Java的JDBC以ODBC为基础，采用了与ODBC相同的标准，保留了ODBC基本的设计特征,使熟悉ODBC的人容易使用
+JDBC。JDBC技术的主要思想就是为应用程序访问数据库提供统一的接口，屏蔽各种数据库之间的异构性，保证java程序
+的可移植性。
+
+	
+  在JDBC技术中，程序员使用JDBC API将标准的SQL语句通过JDBC驱动管理器(JDBC Driver Manager)传递
+给所指定的数据库服务器，这样就不必为访问不同的数据库而编写不同的接口。
+					
+						JVM中 DriverManager							jar包
+	Java使用SQL -> JDBC API -> JDBC驱动管理器(根据JDBC API发送过来的请求，装载合适的JDBC驱动程序类型和相应数据源) -> 数据库服务器
+	
+	
+JDBC驱动类型：JDBC-ODBC桥，本地API部分Java驱动，网络协议完全Java驱动，本地协议完全Java驱动(学的,加载mysql那种)
+
+
+
+JDBC的核心类和接口在java.sql包中:
+	（1）驱动程序管理
+		java.sql.driver-提供数据库驱动程序信息，每个数据库驱动器类都要实现的接口
+		java.sql.DriverManager-提供管理一组JDBC驱动程序所需的基本服务，加载数据库驱动器，
+							   驱动数据库驱动器建立连接
+		java.sql.DriverPropertyInfo-提供驱动程序与建立连接相关的特性
+		
+	（2）数据库连接
+		java.sql.connection-表示与特定数据库的连接。通过连接执行SQL语句，返回结果
+	（3）SQL语句
+		java.sql.Statement-包含执行sql语句方法，返回结果
+		java.sql.PreparedStatement-表示预编译的sql语句
+		java.sql.CallableStatement-用来执行sql的存储过程
+	（4）数据
+		java.sql.ResultSet-表示数据库结果集，一般在执行sql查询语句时产生
+		
+	（5）异常
+		java.sql.SQLException-数据库访问异常
+		java.sql.SQLWarning-数据库访问中的警告
+		
+JDBC开发数据库应用步骤：
+	加载驱动是根据使用什么样的数据库，加载什么数据库的驱动给JDBC驱动管理器
+	Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");//加载和注册JDBC-ODBC桥驱动	url:"jdbc:obdc:wombat";wombat为数据源名称
+	使用其他驱动程序,则驱动程序的文档中会说明驱动的类名，如果类名为：jdbc.DriverXYZ。则Class.forName("jdbc.DriverXYZ");
+ 
+ 
+	1.加载驱动程序：（1）从系统属性java，sql中读取Driver的类名，并一一注册
+				（2）使用Class.forName("com.mysql.cj.jdbc.Driver");//加载mysql驱动	
+				  		//动态加载并注册数据库驱动,抛出ClasNotFoundException
+						//数据库驱动程序加载后，就可以建立与DBMS的连接了
+	2.建立数据库连接：使用DriverManager类的static的getConnection()方法
+			public static Connection getConnection(String url,String user,String password) throws SQLException
+						url:数据库连接串，指定使用的数据库访问协议以及数据源
+			Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/3_8data");
+	3.执行sql语句
+			调用数据连接对象的createStatement()方法，得到Statement对象
+			public Statement createStatement() throws SQLException
+			Statement stmt = con.createStatement();
+			
+			
+			使用Statement对象发送sql语句: 
+						检索 executeQuery(String sql)  sql的select,返回ResultSet对象
+					   更新executeUpdate(String sql) sql的insert，update，delete 返回int对象
+			sql太长："sql"+"sql";
+			ResultSet result = stmt.executeQuery(String sql)
+			
+			多次执行但参数不同的sql语句，可以使用PreparedStatement对象
+			CallableStatment对象建立并调用数据库上的存储过程
+	4.处理结果集
+			结果集是保存在SQL的select语句返回的结果记录的表，是ResultSet类的对象，结果集通过
+			cursor游标控制具体记录的返回.
+			ResultSet类的next()方法，将游标移到下一行,最后一行返回false，否则返回true
+			一个结果集游标的初始位置是在第一行记录之前，所以第一next(),到第一行
+			定位到结果集的一行后，就可以获取数据了。
+			对于不同的sql数据类型采用不同的读取方法，以实现sql数据类型与java数据类型的转换
+			
+			具体是使用相应的getXXX()方法获取每个列的值,jdbc提供了两种方式
+			一种是以列名为参数
+			ResultSet rs = stmt.execurQuery("select a,b,c from table")
+			while(rs.next()){
+				int x = rs.getInt("a");
+				String s = rs.getString("b");
+				float f = rs.getFloat("c");
+			}
+			另一种是以结果集中列的序号为参数，从1开始递增
+			while(rs.next()){
+			int x = rs.getInt(1);
+			String s = rs.getString(2);
+			float f = rs.getFloat(3);
+			}
+			
+	5.关闭数据库连接：一般先释放Statement
+		stmt.close();
+		con.close();
+		
+		
+		
+		
+		
+		
+
