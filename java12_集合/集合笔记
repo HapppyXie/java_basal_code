@@ -1,0 +1,127 @@
+ 提供了一些不同于数组的集合，而且这些集合有一些API，预先写好的方法，函数
+业务需求：1.能够存储多个数；
+	   2.对数据和存储空间有动态要求（个数不确定，方便增删）
+解决方案：JDK提供一套集合操作API
+				1.存储空间可随集合元素个数动态调整
+				2.方便集合元素的增删改查操作
+	 示例：商品集合的增删操作   Product和Test1
+
+
+	 * 	Collection接口继承关系
+	 * 
+	 *     					   		<interface>Collection
+	 * 子接口	 			<interface>List有序  				<interface>Set无序
+	   实现类	 ArrayList 	LinkedList		Vector			HashSet 		TreeSet
+  										stack			LinkedHashSet
+	 
+	  
+	 
+	 * 
+	 * 
+	 * Map接口继承关系						映射接口,存键值对
+	 * 	  							<interface>Map
+	 * 实现类			 	HashMap			HashTable			TreeMap可以有序
+	 * 				 LinkedHashMap
+	 * 
+	 * 提升：1.读懂API文档的继承关系及含义
+	 * 		2.试着练习设计接口和抽象类
+	 * */
+	 
+	 
+ ArrayList 总述：List接口：大小可变数组的实现，
+  					实现了所有可选列表的操作，并予许包括null在内的所有元素
+ 特征：1.底层实现是数组，可以根据索引获取值，get(int index)
+	  2.予许null值
+ 
+ 原生方式创建集合，默认存储(raw type)Object原生类型,参数化类型(泛型)或填写具体化类型
+	如：	ArrayList l2 = new ArrayList();
+ 
+ArrayList的底层结构是数组   连续的存储空间
+LinkedList的底层实现是链表  存储空间不连续，一个存储空间分两部分，A，B
+							A保存数据，B保存下一个存储空间的地址，使得链表实现操作
+ 实例KTV点歌系统： 点歌-增加 置顶-增加到第一位 替换-替换歌曲
+ 
+ 
+ Vector Vector的功能和ArrayList一样
+ 		 Vector线程安全,效率会低
+ 
+  		 实现类		(物理上)底层实现  	  特点
+ * 小结：ArrayList 	数组实现	  		查询快，增删慢
+ *	   LinkedList   链表实现	  		查询快，增删慢
+ *	   Vector		数组实现	  		线程安全，效率比ArrayList慢
+ *
+ *Stack特征
+ *		1.后进先出
+ *		2.继承Vector ,线程同步，即线程安全
+ *		3.使用push,pop,peek,serach方法
+
+ 
+ 遍历:1.for
+ 	 2.通过迭代器,导入Iterator包，生成可迭代对象
+		Iterator<String> iterator = l1.iterator();
+		while(iterator.hasNext()) {
+			String food = iterator.next();
+			System.out.print(food+" ");
+		}
+	 3.forEach语法-增强的for循环
+		for(String food : l1) {
+			System.out.print(food+" ");
+		}
+
+ HashSet 哈希表和数组的实现
+ 特征:不保证元素的顺序；予许元素为null；
+  		元素不予许重复（使用自定义类时要中重写hashCode和equals方法）
+ 存储到Set集合中的数据规定要重写equals和hashCode方法
+ 
+ LinkedHashSet 哈希表和链表的实现
+  		特征：1.按存入数据的顺序对应各节点的顺序(有序)
+  			2.予许元素为null
+ 
+TreeSet 树结构实现			0-9A-Z
+ 		特征：1.可实现元素排序存储(自然排序，元素特定的比较器（实现Comparable接口）)
+ 			2.不予许元素为null
+ 			
+  总结
+  		实现类			底层实现		特点
+ 		HashSet  		数组实现		根据哈希值计算元素下标
+  LinkedHashSet 		链表实现		链表结构，元素添加顺序和存储顺序一致
+  		TreeSet			树结构显示	 	按元素的自然顺序排序或特定的比较器（实现Comparable接口）排序
+ 
+ 
+ 
+ 			Map接口继承关系						映射接口,存键值对
+	  	  									<interface>Map
+			实现类			 	HashMap			HashTable			TreeMap可以有序
+	  				         LinkedHashMap
+
+HashMap	哈希表和数组实现
+	特征：不保证顺序；予许null值和null键；
+		 重复键会被覆盖，但会被重复； (通常使用String为键)
+		 非线程安全
+
+LinkedHashMap 哈希表和链表实现
+		特征：	元素添加顺序和存储顺序相同
+		 		予许null值和null键
+		 		重复键会被覆盖，值可以重复
+
+
+TreeMap	树结构实现		先比较键，再比较值 0-9A-Z
+ 		特征：可实现元素排序储存（自然排序，元素特定的比较器（实现Comparable接口））
+ 			予许null值和null键
+ 			重复键会被覆盖，值可以重复
+ 
+较少使用
+HashTable 哈希表和数组实现
+  		特征： 不予许有null值和null键
+  			 线程安全  
+  			 用法和HashMap相同
+  
+  
+  总结
+  实现类				底层实现 		特点
+  HashMap  		数组实现  	  根据Hash计算元素下标
+  LinkedHashMap  	链表实现 	  链表结构，元素添加顺序和存储顺序一致
+  TreeMap 			树结构实现	  按元素的自然顺序排序或特定的比较器（Comparable接口）排序
+  	
+ 
+ 
