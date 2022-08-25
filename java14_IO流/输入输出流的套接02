@@ -1,0 +1,68 @@
+节点流在程序中不是很常用。一般通过过滤流将多个流套接在一起，利用各种流的特性共同处理数据。
+套接的多个流构成了一个流链。方便处理数据和提高处理效率
+常用输入/输出流类:
+ 1.文件流(节点流)：FileInputStream/FileOutputStream类
+ 		 	   FileReader/FileWriter类
+ 		 
+ 2.缓冲流(过滤流)：BufferedInputStream/BufferedOutputStream类
+ 		 	   BufferdReader/BufferedWriter类
+   这种流把数据从原始流块读入或把数据积累到一个大数据块再成批写出，通过减少系统资源的读写次数来加快程序的执行
+   BufferedOutputStream或BufferedWriter类仅在缓存区满或调用flush()方法时才把数据写到目的地
+  		public BufferedInputStream(InputStream in)
+  		public BufferedInputStream(InputStream in,in size)指明缓存区大小
+  		
+  		支持基于标签机制的回读.
+  		BufferedReader类增加方法readLine() 读一行字符返回，行的结束标记是换行'\n'或回车符'\r'，或回车符+换行符。
+  		BufferedWriter类增加方法newLine()	写一个行分隔符,即换到下一行
+  		
+ 3.管道流:实现线程间的数据的直接传输
+ 
+ 
+ 
+ 4.数据流:数据流包括DataInputStream/DataOutputStream类，
+ 		它们予许按java的基本数据类型读写流中的数据。提供了很多读写基本数据类型的方法
+ 	 DataInputStream类提供的读取数据的部分方法：
+ 	 	byte readByte()
+ 	 	boolean readBoolean()
+ 	 	char readChar()
+ 	 	double readDouble()
+ 	 	float readFloat()
+ 	 	int readInt()
+ 	 	long readLong()
+ 	 	short readShort()
+ 	 	String readUTF()	//读取以UTF格式保存的字符串
+ 	 	
+5.标准输入/输出流:java中，标准输入是键盘，标准输出是显示屏幕(加载Java程序的命令窗口)
+  java在System类中定义了与系统标准输入/输出相联系的3个流
+  （1）标准输入流(System.in)
+  	public static final InputStream in 程序运行时一直打开并准备好提供输入数据。一般为键盘输入
+ 	 
+ 	 System.in是InputStream类的对象,节点流。
+ 	 需从键盘读入数据的时候，调用System.in的read()方法即可/也可套接其他过滤流
+ 	 int ch = System.in.read()
+ 	 
+ 	 注意： 1>read()抛出IOEexception；
+ 	 	  2>从缓冲区读入一个字节的数据，但返回16位的整型值，该整型值只有低位字节是真正输入的数据，
+ 	 	   高位字节全部为0
+ 	 	  3>System.in.read()方法的执行将使整个程序被挂起，直到用户从键盘输入数据才继续运行	
+ 	
+  （2）标准输出流(System.out)	
+ 	public static final PrintStream out 程序运行时一直打开并准备好接受输出的数据。一般为屏幕输出
+ 		System.out是打印输出流PrintStream类的对象。
+ 		PrintStream是一种过滤流，定义了在屏幕上显示不同类型数据的方法print和println()
+ 		println()向屏幕输出其参数指定的变量或对象(所有类的对象)，然后换行。如果参数为空，输出一个空行
+ 		print()同上，只是不换行
+ 		
+ 		
+ 		
+  （3）标准错误输出流System.err
+  	public static final PrintStream err 程序运行时一直打开并准备好接受输入的数据。一般为屏幕输出，显示错误信息
+  	
+ 	 	
+ 	 	
+ 		
+ 		
+ 		
+ 		
+ 		
+ 		

@@ -1,0 +1,77 @@
+ 图片上传-改图宝
+ 模拟文件上传-文件复制
+ 流的认识：水流  流的组成：源头和去处
+ 流在文件上传或复制中应用    读取本地文件-写到服务器磁盘
+
+	
+	/*			顶层				FileInputStream!
+	 * 												
+	 * 													BufferedInputStream!
+	 * 							FilterInputStream! 		DataInputStream
+	 * 			抽象类	   							    PushbakInputStream
+	 * 			InputStream		ObjectInputStream
+	 * 字节流   					PipedInputStream
+	 * 							SequenceInputStream
+	 * 							StringBufferedInputStream
+	 * 							ByteArrayInputStream
+	 * 	
+	 
+	 * 							FileOutputStream!
+	 * 												BufferedOutputStream!
+	 * 							FileOutputStream!	DataOutputStream
+	 * 			OutputStream						PrintStream
+	 * 							
+	 * 							ObjectOutputStream
+	 * 							PipedOutputStream
+	 * 							ByteArrayOutputStream
+	 * 
+	 
+	 
+	 
+	 
+	 * 1字节占2个字符
+	 * 					BufferedReader!
+	 * 					InputStreamReader!   FileReader!
+	 * 			抽象类	StringReader
+	 * 			Reader	PipedReader
+	 * 					ByteArrayReader		
+	 * 					FilterReader  PushbackReader
+	 * 
+	 * 字符流
+	 * 					BufferedWriter! 
+	 					OutputStreamWriter!	 FileWriter!
+	 * 			Writer	PrintWriter!
+	 * 					StringWriter		
+	 * 					PipedWriter
+	 * 					CharArrayWriter
+	 * 					FilterWriter
+
+字节和字符之间的桥梁
+InputStreamReader 	按一定的编码/解码标准(可指定编码)将  字节流输入转换为字符输出流
+		InputStreamReader isr = new InputStreamReader(InputStream in)
+		InputStreamReader isr = new InputStreamReader(InputStream in,String encode)
+
+OutputStreamWriter  按一定的编码/解码标准(可指定编码)将  字符输出流 转换为 字节输出流
+
+		
+PrintWriter 包含方便的打印方法，最简单的输出流;可将 字节输出流 转换为 字符输出流
+
+
+
+ * 文件字节流：FileInputStream和FileOutputStream  
+ 			特征：以字节（8位）为单位进行读写
+ * 实现从指定的文件中读取字节，和将字节写入指定的文件
+
+ * 字节缓冲流：BufferedInputStream和BufferedOutputStream();
+ * 			字节缓冲流实现文件复制
+ 			缓冲流不一定快，针对大文件，内部默认一次8个字节
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  

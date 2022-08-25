@@ -1,0 +1,75 @@
+外界的数据可能保存在磁盘的文件，内存，或其他程序中，并且可能有多种类型，字节，字符，对象等
+
+流：是从源到目的地的字节的有序序列。流中的字节依据先进先出，具有严格顺序，故流式I/O是一种顺序存取方式
+
+输入流：一个从某数据源(如文件，内存等)到程序的一个流，从这个流中读取数据,流是有方向的，所以它输入流只能读，不能向它写程序
+输出流：打开到外外界某种目的地的流，把数据顺序写到该流中，把程序中的数据保存在外界，只能向该流写，不能读取数据
+
+上述流式I/O的类都在java.io保中,这些类根据流相对于程序的另一个端点的不同，分为节点流(Node Stream)和过滤流(Filter Stream)
+-节点流：以特定源如磁盘文件，内存某区域或线程之间的管道为端点构造的输入/输出流，它是一种最基本的流
+-过滤流：以其他已经存在的流为端点构造的输入/输出流,称为过滤流或处理流，它要对与其他相连的另一个流进行某种转换
+
+java中的流根据数据单位不同分为字节流与字符流
+-字节流：流中的数据以8位字节位单位进行读写，以InputStream与OutputStream位基础类
+-字符流：流中的数据以16位字符为单位进行读写,以Reader与Writer为基础类
+字节流和字符流的主要差别是处理的数据类型不同，其他基本相类似
+
+字节流
+ （1）字节输入流InputStream类，字节输入流的顶层抽象父类，所有输入流类都要继承并实现的基本数据读取方法
+ 	基本方法：int read() 读一个字节作为方法发返回值，文件结束返回-1
+ 		   int read(byte[] b)将读取的数据放到一个字节数组中，并返回所读的字节数
+ 		   int read(byte[] b, int off,int len) 
+ 		   	将读入的数据放在一个字节数组中，并返回所读的字节数，两个整型参数表示数据在数组b中的存放位置
+ 		   	
+ 		   void close()关闭流。顺序：低级到高级；对于过滤流：把最顶层的流关闭，会自动自顶向下关闭所有流
+ 		   int available()返回输入流中还有多少可读的字节
+ 		   long skip(long n)跳过流中指定字节数量的数据
+ 		   
+ 		   流的回读方法,支持回读流上实现已读取数据的重读读
+ 		   boolean markSuppoorted() 测试打开的流是否支持可读
+ 		   void mark(int readlimit)标记当前流，并创建有readlimit指示的缓冲区
+ 		   void reset()如果使用mark()做了标记，使用reset()将使后续的读操作从标记读数据，
+ 		   			如果标记处所读的字节数大于mark()创建的缓冲区,reset()方法无效
+
+ 		   			
+ （2）字节输出流OutputStream类，所有类的顶层抽象父类
+ 	基本方法：void write(int c)向输出流中写一个字节
+ 		   void write(byte[] b)向输出流中写一个字节数组
+ 		   void write(byte[] b,int off,int len)
+ 		   		将字节数组从off和len指示的数据块写入输出流
+ 		   void close()
+ 		   
+ 		   void flush()强制将缓存的输出数据写出去，将数据立即写到目的地，在调用close()方法前
+ 		   
+字符流：Reader和Writer是java.io包中两个字符流类的顶层抽象父类.
+	  字符流能够处理Unicode字符集中的所有字符，而字节流限于ISO-Latin-1的8位字节，
+	  故使用字符流读取文本数据
+  （1）输入字符流Reader类：		
+ 	 基本方法：int read() 读一个字符作为方法的返回值，文件结束返回-1
+ 	 		int read(char[] cbuf)读字符放入数组，返回所读的字符数
+ 	 		int read(char[] cbuf,int offset,int length)
+ 	 				读字符返回数组的指定位置，返回所读的字符数
+ 	 				
+ 	 		void close()关闭流
+ 	 		void skip(long n)跳过n个字符
+ 	 		boolean markSupported()测试打开的流是否支持标记书签
+ 	 		void mark(int buf)标记当前流，建立由参数buf指示的大小的缓冲区
+ 	 		void reset()返回标签处
+ 	 		boolean ready()测试当前流是否准备好进行读
+ 	 		
+ 	(2)输出字符流Writer类
+ 	  基本方法：int write(int c)写单个字符
+ 	  		 int write(char[] cbuf)写当个字符
+ 	  		 int write(char[] cbuf,int offset,int length)写字符数组的部分数据
+ 	  		 int write(String str)写一个字符串
+ 	  		 int write(String str,int offset,int length)写字符串的一部分
+ 	  		 
+ 	  		 void close()
+ 	  		 void flush()强行写
+ 	  		 
+ 字节流和字符流主要的区别在于处理的数据类型。
+  Reader/Writer与InputStream和OutputStream具有类似的API，并且每个核心的输入/输出字节流，
+  都有对应的Reader和Writer版本，例如FileInputStream/FileOutputStream与FileReader/FileWriter
+ 				
+ 		   			
+ 		   			
