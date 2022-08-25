@@ -1,0 +1,47 @@
+
+
+java.lang.ThreadGroup（线程组类）
+	（1）Java应用程序中，所有的线程都属于一个线程组，线程组中的线程一般是相关的。
+	（2）线程组使一组线程可以作为一个对象进行统一处理和维护。可以用一个方法统一调用，启动和挂起线程组内的所有方法。
+	（3）一个线程组只能在创建时设置其所属的线程组，线程创建后不予许将一个线程移到另一个线程组。
+	（4）若线程创建时没有显示地指定线程组，则新创建的线程自动属于父线程所在的线程组。
+		 Java应用程序启动后，Java运行系统为该应用程序创建了一个称为main的线程组。
+		 如果以后创建的线程组没有指定线程组，则这些线程都将属于main线程组。
+	（5）ThreadGroup类对Java应用程序中的线程进行管理。
+	（6）一个线程可以包含任意数的线程。一个线程组内不仅可以包含线程，还可以包含其他线程组。
+	（7）Java应用程序中，最顶层的线程组是main。在main中可以创建线程和线程组。
+	
+		Java应用程序中，形成了以main为根的线程和线程组的树型结构。
+		
+创建线程显示指定线程组：
+	public Thread(ThreadGroup group,Runnable target);
+	public Thread(ThreadGroup String name);
+	public Thread(ThreadGroup group,Runnable target,String name);
+	
+	ThreadGroup myThreadGroup = new ThreadGroup("my Group of Thread")//创建线程组对象
+	Thread myThread = new Thread(myThreadGroup,"a thread of my group")//在线程组中加入线程myThread
+	
+	
+ThreadGroup类的其他方法：
+	setName(String name);//把线程的名字设置为name
+	getName();//返回线程的名字
+	activeCount();//返回当前线程组中活动的线程个数
+	getThreadGroup();//返回当前线程所属的线程组名，已经终止返回null
+	toString();//返回线程名字，优先级，线程组
+	
+	
+	setDaemon();//设置当前线程为Daemon线程，该方法必须在线程启动前调用。
+		Daemon有时可称服务线程，通常以比较低的优先级运行，它为同一个应用程序中的其他线程提供服务。
+		如Java运行系统中的垃圾收集线程就是Daemon线程
+	isDaemon();//测试线程是否为Daemon线程
+	enumerate(Thread[] tarray);//把当前所属线程的线程组中的活动线程复制到tarray线程数组中，包括它们的子线程。
+	checkAccess();//t.checkAccess()确定当前确定当前线程是否予许访问另一个线程t。如果运行系统中有安全管理器，
+				  //则会以线程t为参数调用安全管理器的checkAccess()方法，并有可能抛出SecurityException
+
+
+
+
+
+
+	
+	
